@@ -5,7 +5,7 @@ class Break174Processor extends AudioWorkletProcessor {
  process(inputs,outputs){const out=outputs[0];if(!out?.length)return true;if(!this.primed){this.next();this.fl=this.nl;this.fr=this.nr;this.next();this.sl=this.nl;this.sr=this.nr;this.primed=true;}
   const n=out[0].length;for(let i=0;i<n;i++){out[0][i]=this.fl+(this.sl-this.fl)*this.phase;if(out[1])out[1][i]=this.fr+(this.sr-this.fr)*this.phase;this.phase+=44100/sampleRate;while(this.phase>=1){this.phase--;this.fl=this.sl;this.fr=this.sr;this.next();this.sl=this.nl;this.sr=this.nr;}}
   if(this.recording){const l=out[0].slice(),r=(out[1]||out[0]).slice();this.port.postMessage({type:'audio',l,r},[l.buffer,r.buffer]);}
-  if(++this.counter%20===0)this.port.postMessage({type:'status',values:Array.from({length:21},(_,i)=>this.e.status(i+1))});return true;
+  if(++this.counter%20===0)this.port.postMessage({type:'status',values:Array.from({length:22},(_,i)=>this.e.status(i+1))});return true;
  }
 }
 registerProcessor('break174',Break174Processor);

@@ -36,7 +36,7 @@ static void screen(int mode,int pending){
  char line[20];
  draw_text_box(0,8,240,&FONT_L,"BREAK//174",RGB(0,230,170),1);
  draw_text_box(0,44,240,&FONT_S,b174_style_name(engine.set.style),RGB(255,170,70),1);
- draw_text_box(0,66,240,&FONT_S,mode?"DRUM KEYS":"LIVE / HOLD BLACK",C_WHITE,1);
+ draw_text_box(0,66,240,&FONT_S,mode?"DRUM KEYS":engine.set.air?"LIVE / ATMOS ON":"LIVE / ATMOS OFF",C_WHITE,1);
  draw_text_box(0,90,240,&FONT_S,b174_family_name(engine.set.family),C_WHITE,1);
  label_value(116,"BPM",engine.set.bpm);label_value(138,"COMPLEX",engine.set.complexity);
  label_value(158,"ROLL",engine.set.roll);label_value(178,"CRUNCH",engine.set.crunch);
@@ -55,7 +55,7 @@ static void app_main(void){
   b174_command(&engine,B174_C_COMPLEXITY,settings.complexity);b174_command(&engine,B174_C_ROLL,settings.roll);
   b174_command(&engine,B174_C_CRUNCH,settings.crunch);b174_command(&engine,B174_C_MIX,settings.mix);
   b174_command(&engine,B174_C_BASS,settings.bass);b174_command(&engine,B174_C_KIT,settings.kit);
-  b174_command(&engine,B174_C_ROOT,settings.root);engine.set.scene=(uint8_t)b174_clamp(settings.scene,0,7);engine.saved=engine.set;
+  b174_command(&engine,B174_C_ROOT,settings.root);b174_command(&engine,B174_C_AIR,settings.air);engine.set.scene=(uint8_t)b174_clamp(settings.scene,0,7);engine.saved=engine.set;
  }
  lcd_fill(0,0,240,240,C_BLACK);screen(mode,save_pending);
  for(;;){
@@ -78,6 +78,7 @@ static void app_main(void){
   if(buttons&(1u<<BTN_OCT_DOWN)){enqueue(B174_C_RETURN,0);memset(&holds,0,sizeof holds);blocked=keys;}
   if(buttons&(1u<<BTN_SEQ))enqueue(B174_C_FILL,16);
   if(buttons&(1u<<BTN_ARP))enqueue(B174_C_BASS,!engine.set.bass);
+  if(buttons&(1u<<BTN_FX))enqueue(B174_C_AIR,engine.set.air?0:86);
   if(buttons&(1u<<BTN_EDIT))enqueue(B174_C_KIT,(engine.set.kit+1)%4);
   delta=fm1_enc_take(ENC_SELECT);if(delta)enqueue(B174_C_BPM,engine.set.bpm+delta);
   delta=fm1_enc_take(ENC_ALGORITHM);if(delta)enqueue(B174_C_STYLE,b174_clamp((int)engine.set.style+delta,0,2));

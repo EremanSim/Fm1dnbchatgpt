@@ -14,11 +14,12 @@ void b174_command(b174_engine *e,int c,int value){
  case B174_C_BASS:e->set.bass=(uint8_t)(value!=0);if(!value)e->bass_target=0;break;
  case B174_C_KIT:e->set.kit=(uint8_t)b174_clamp(value,0,3);break;
  case B174_C_ROOT:e->set.root=(uint8_t)b174_clamp(value,0,11);break;
+ case B174_C_AIR:e->set.air=(uint8_t)b174_clamp(value,0,127);break;
  case B174_C_HELD:e->held=(uint32_t)value&2047u;break;
  case B174_C_RETURN:b174_restore(e);break;
  case B174_C_FILL:e->fill_until=e->frame+(e->step_q16>>16)*(uint32_t)b174_clamp(value,1,16);break;
  case B174_C_SCENE:e->pending_scene=(uint8_t)b174_clamp(value,0,7);e->scene_pending=1;break;
- case B174_C_PANIC:e->held=0;e->running=0;e->bass_target=0;e->bass_env=0;e->room_lp=0;e->dub_lp=0;for(int v=0;v<B174_VOICES;v++)e->voice[v].env=0;for(unsigned i=0;i<B174_ROOM;i++)e->room[i]=0;for(unsigned i=0;i<B174_DUB;i++)e->dub[i]=0;break;
+ case B174_C_PANIC:e->held=0;e->running=0;e->bass_target=0;e->bass_env=0;e->bass_gate=0;e->air_env=0;e->ep_env=0;e->pad_left=0;e->pad_right=0;e->space_lp=0;e->event_count=e->event_cursor=0;e->room_lp=0;e->dub_lp=0;for(int v=0;v<B174_VOICES;v++)e->voice[v].env=0;for(unsigned i=0;i<B174_ROOM;i++)e->room[i]=0;for(unsigned i=0;i<B174_DUB;i++)e->dub[i]=0;for(unsigned i=0;i<B174_SPACE;i++)e->space[i]=0;break;
  case B174_C_CLOCK: /* MIDI realtime; interval tracking is applied only when selected by adapter. */
   if(value==0xfa)b174_command(e,B174_C_PLAY,1);
   else if(value==0xfc)b174_command(e,B174_C_PLAY,0);

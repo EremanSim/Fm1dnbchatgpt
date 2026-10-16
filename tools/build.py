@@ -47,7 +47,7 @@ SDK_SHA256 = {
     "cfg/eq_cfg_hw.bin": "41167491bffed4651750719c973d2758adeb9021a5670d02d6a53c85ed80ea7d",
 }
 
-PRODUCT = "FM-1_9174010"                # BREAK//174 development identity, 0.1.0
+PRODUCT = "FM-1_9174020"                # BREAK//174 development identity, 0.2.0
 VERSION = None                      # APP_VER for release builds
 
 

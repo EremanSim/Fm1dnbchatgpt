@@ -7,3 +7,6 @@ ${CC:-cc} -std=c99 -O2 -Wall -Wextra -Werror -Icore tests/test_engine.c core/bre
 
 ${CC:-cc} -std=c99 -O2 -Wall -Wextra -Werror -Wno-unused-function -Icore tests/test_input.c -o build/test-input
 ./build/test-input
+
+${CC:-cc} -std=c99 -O2 -Wall -Wextra -Werror -Icore tests/test_sound.c core/break174.c -o build/test-sound
+./build/test-sound

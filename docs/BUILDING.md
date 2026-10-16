@@ -8,7 +8,7 @@
 sh tests/run.sh
 node tests/test_wasm.mjs
 node tests/test_worklet.mjs
-python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
+python3 tests/test_package.py releases/break174-0.2.0-alpha.fwsc FM-1_9174020
 cc -std=c99 -O2 -Icore tools/render.c core/break174.c -o build/render
 build/render build/amen.wav 12 1
 python3 -m http.server 8000 --directory web
@@ -19,6 +19,17 @@ python3 -m http.server 8000 --directory web
 ```sh
 WASM_CC=/path/to/wasi-sdk/bin/clang python3 tools/build_web.py
 ```
+
+## Повторить синтез ROM
+
+Готовые `core/drum_rom.h` и `core/sine_rom.h` включены. Для их воспроизводимой генерации:
+
+```sh
+python3 -m pip install numpy scipy
+python3 tools/design_drums.py
+```
+
+Генератор не читает аудиозаписи и не использует сеть: только шум, резонаторы, огибающие, фильтры и математические осцилляторы. Проверенная генерация: numpy 2.3.5, scipy 1.17.0.
 
 ## FM‑1 target
 
@@ -40,10 +51,10 @@ SDK доступен в [официальном репозитории JieLi](ht
 ```sh
 JIELI_TOOLCHAIN=/path/to/jieli-linux-toolchains-20260730.1 \
 AC79_SDK=/path/to/fw-AC79_AIoT_SDK \
-sh build.sh --release 0.1.0-alpha
+sh build.sh --release 0.2.0-alpha
 ```
 
-Результат: `build/break174-0.1.0-alpha.fwsc`. Идентификатор этой сборки — `FM-1_9174010`; namespace выбран для проекта, регистрация в Firmware Hub ещё не выполнялась. Сборщик проверяет размещение RAM, pool, ROM-вызовы, размер образа и доступ к регистрам только из HAL.
+Результат: `build/break174-0.2.0-alpha.fwsc`. Идентификатор этой сборки — `FM-1_9174020`; namespace выбран для проекта, регистрация в Firmware Hub ещё не выполнялась. Сборщик проверяет размещение RAM, pool, ROM-вызовы, размер образа и доступ к регистрам только из HAL.
 
 ## Установка на FM‑1
 
@@ -53,7 +64,7 @@ sh build.sh --release 0.1.0-alpha
 
 ```sh
 sha256sum -c releases/SHA256SUMS
-python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
+python3 tests/test_package.py releases/break174-0.2.0-alpha.fwsc FM-1_9174020
 ```
 
 Подключи FM‑1 по USB и закрой программы, занявшие его MIDI-порт:
@@ -61,7 +72,7 @@ python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
 ```sh
 python3 -m pip install mido python-rtmidi
 python3 tools/fm1_install.py --info
-python3 tools/fm1_install.py releases/break174-0.1.0-alpha.fwsc
+python3 tools/fm1_install.py releases/break174-0.2.0-alpha.fwsc
 ```
 
 Installer сначала показывает устройство и запросит подтверждение. Не используй `--force` для обхода ошибки формата. Он проверяет модель, структуру/CRC пакета, маркер своего loader и идентичность после перезапуска. Проверка формата выполнена автоматически; реальная USB-установка ещё не выполнялась.

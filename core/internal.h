@@ -3,11 +3,11 @@
 #define B174_INTERNAL_H
 static int b174_clamp(int x,int lo,int hi){return x<lo?lo:x>hi?hi:x;}
 static uint32_t b174_random(b174_engine *e){uint32_t x=e->rng;x^=x<<13;x^=x>>17;x^=x<<5;return e->rng=x?x:1;}
+#include "sine_rom.h"
 static int32_t b174_sine(uint32_t ph){
- int32_t x=(int32_t)(ph>>16)-32768,ax=x<0?-x:x;
- int32_t y=(x*(32768-ax))>>13,ay=y<0?-y:y;
- y+=((((y*ay)>>15)-y)*7373)>>15;
- return b174_clamp(y,-32767,32767);
+ unsigned at=ph>>22,frac=(ph>>6)&65535u;
+ int32_t a=b174_sine_rom[at],d=b174_sine_rom[at+1]-a;
+ return a+(d*(int32_t)frac)/65536;
 }
 /* Keep saturation separate: the pi32 compiler otherwise folds gain+clip into a
  * comparison against an immediate in the protected ROM address range. */

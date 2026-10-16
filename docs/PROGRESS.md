@@ -16,3 +16,9 @@ Plan: docs/superpowers/plans/2026-10-16-break174.md
 - GitHub initialization succeeded through the authorized connector; publication of the complete tree follows final verification.
 
 - Published complete 82-file tree to main: f2045aa1eba5abddfa567d221c594f2a9b73de35. Remote ref verified. Remote tree ace493e836e679d0e438befd3a9bf09069aeafbf exactly matches the locally verified Git tree.
+
+## 0.2 atmospheric sound revision — 2026-10-17 MSK
+
+User rejected initial sound and requested LTJ Bukem research. Replaced the percussion basis with original generated PCM, added bounded microtiming, articulated sub, original close-voiced harmonic layer and stereo space. Default 166 BPM / F / Amen Flow / Atmos. Research and musical scope: docs/SOUND-0.2.md.
+
+Native, sanitizers, WASM/worklet, ROM reproduction, target guards and package integrity passed. Independent code review completed and findings resolved. New firmware and browser are built from the same tree.

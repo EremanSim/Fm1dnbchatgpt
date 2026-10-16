@@ -18,7 +18,10 @@ jobs:
       - run: |
           cc -std=c99 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -Icore tests/test_engine.c core/break174.c -o build/test-sanitize
           ASAN_OPTIONS=detect_leaks=0 ./build/test-sanitize
+          cc -std=c99 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -Icore tests/test_sound.c core/break174.c -o build/test-sound-sanitize
+          ASAN_OPTIONS=detect_leaks=0 ./build/test-sound-sanitize
       - run: python3 tools/build_web.py
       - run: node --check web/app.js && node tests/test_wasm.mjs && node tests/test_worklet.mjs
       - run: python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
+      - run: python3 tests/test_package.py releases/break174-0.2.0-alpha.fwsc FM-1_9174020
       - run: sha256sum -c releases/SHA256SUMS

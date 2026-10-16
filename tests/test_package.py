@@ -8,7 +8,7 @@ assert not ota.known_loader("ota-FM-1_800")
 assert not ota.known_loader("ota-FM-1_9174")
 if len(sys.argv)>1:
     product,image=ota.load_package(sys.argv[1],False)
-    assert product=="FM-1_9174010"
+    assert product==(sys.argv[2] if len(sys.argv)>2 else "FM-1_9174010")
     assert image
     print("package: identity, loader marker, structure and CRC checks passed")
 else:

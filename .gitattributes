@@ -1,0 +1,4 @@
+* text=auto
+*.wasm binary
+*.fwsc binary
+*.ogg binary

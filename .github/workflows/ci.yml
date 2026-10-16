@@ -1,0 +1,24 @@
+name: Core and package checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y clang lld
+      - run: sh tests/run.sh
+      - run: |
+          cc -std=c99 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -Icore tests/test_engine.c core/break174.c -o build/test-sanitize
+          ASAN_OPTIONS=detect_leaks=0 ./build/test-sanitize
+      - run: python3 tools/build_web.py
+      - run: node --check web/app.js && node tests/test_wasm.mjs && node tests/test_worklet.mjs
+      - run: python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
+      - run: sha256sum -c releases/SHA256SUMS

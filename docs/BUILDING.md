@@ -72,4 +72,4 @@ Installer сначала показывает устройство и запро
 
 GitHub Actions запускает native, ASan/UBSan, WASM/worklet и package-тесты. Сборка FM‑1 требует внешнего SDK и выполнялась отдельно; CI её не подменяет.
 
-`web/` — статическая папка. Опциональный workflow **Deploy web preview** публикует её в GitHub Pages после включения Settings → Pages → Source: GitHub Actions и ручного запуска. Автоматическая публикация alpha в Firmware Hub не настроена.
+`web/` — статическая папка. Workflow **Deploy web preview** публикует её в GitHub Pages при изменениях `web/` в `main`; также доступен ручной запуск. При первом развёртывании нужно включить Settings → Pages → Source: GitHub Actions. Автоматическая публикация alpha в Firmware Hub не настроена.

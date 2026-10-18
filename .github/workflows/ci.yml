@@ -25,3 +25,15 @@ jobs:
       - run: python3 tests/test_package.py releases/break174-0.1.0-alpha.fwsc
       - run: python3 tests/test_package.py releases/break174-0.2.0-alpha.fwsc FM-1_9174020
       - run: sha256sum -c releases/SHA256SUMS
+
+  sound-lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python3 -m pip install numpy==2.3.5 scipy==1.17.0
+      - run: python3 tools/build_sound_lab.py
+      - run: python3 tests/test_lab_audio.py

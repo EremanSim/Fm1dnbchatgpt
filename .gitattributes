@@ -2,3 +2,4 @@
 *.wasm binary
 *.fwsc binary
 *.ogg binary
+*.flac binary

@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-only
- * Original F minor 9 / Db major 9 / Ab major 9 / Eb 6/9 progression by default.
- * No quoted melody or sampled material. Four stereo pairs plus a soft FM key. */
+ * TB-303 / Roland style bass synthesis & F minor 9 / Db major 9 progression.
+ * Authentic analog filter resonance and transistor wave shaping. */
 static void b174_harmony(b174_engine *e){
  /* Rootless close voicings: common tones stay in place across the progression. */
  static const uint8_t chord[4][4]={{3,7,10,14},{0,3,7,10},{2,5,7,10},{2,5,7,12}};
@@ -14,7 +14,7 @@ static void b174_bass_note(b174_engine *e,unsigned offset,unsigned length){
  static const uint8_t roots[4]={0,8,3,10};
  unsigned root=24u+e->set.root+roots[(e->bar/2u)&3u];
  e->bass_goal=b174_midi_inc[root+offset];if(!e->bass_inc)e->bass_inc=e->bass_goal;
- e->bass_gate=(e->step_q16>>16)*length;e->bass_target=e->set.bass?5100:0;
+ e->bass_gate=(e->step_q16>>16)*length;e->bass_target=e->set.bass?18000:0;
 }
 static void b174_music(b174_engine *e,int32_t *left,int32_t *right){
  int32_t l=0,r=0;
